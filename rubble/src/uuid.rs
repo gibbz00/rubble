@@ -54,9 +54,6 @@ impl Uuid128 {
             }
         }
 
-        let expected_dash = 1;
-        let unexpected_trailing_data = 1;
-
         // full UUID: 0000fd6f-0000-1000-8000-00805f9b34fb (36 chars/bytes)
         // dashes at offsets 8, 13, 18, 23
         let mut index = 0;
@@ -76,7 +73,7 @@ impl Uuid128 {
             ($s:ident[$i:ident..]) => {{
                 match $s.as_bytes()[$i] {
                     b'-' => {}
-                    _ => [()][expected_dash],
+                    _ => panic!(), // expected_dash
                 }
                 $i += 1;
             }};
@@ -105,7 +102,7 @@ impl Uuid128 {
 
         // String must end here.
         if s.len() > index {
-            [()][unexpected_trailing_data];
+            panic!(); // unexpected trailing data
         }
 
         Uuid128(bytes)
