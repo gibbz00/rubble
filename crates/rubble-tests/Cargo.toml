@@ -1,7 +1,7 @@
 [package]
 name = "rubble-test"
 version = "0.0.1"
-edition = "2018"
+edition = "2021"
 
 [dependencies]
 # enable the 52840 feature in this Cargo workspace, so that `cargo build` and `cargo test` can
