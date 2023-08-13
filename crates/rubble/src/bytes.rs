@@ -73,16 +73,13 @@ enum Inner<'a, T: ?Sized> {
 
 impl<'a, T: ?Sized> Clone for Inner<'a, T> {
     fn clone(&self) -> Self {
-        match self {
-            Inner::Bytes(b) => Inner::Bytes(b),
-            Inner::Or(t) => Inner::Or(t),
-        }
+        *self
     }
 }
 
 impl<'a, T: ?Sized> Clone for BytesOr<'a, T> {
     fn clone(&self) -> Self {
-        BytesOr(self.0)
+        *self
     }
 }
 
@@ -215,7 +212,7 @@ impl<'a, T: Copy + FromBytes<'a>> Iterator for IterBytesOr<'a, T> {
                     None
                 } else {
                     // Read a `T` and overwrite our `b` with the left-over data
-                    let mut reader = ByteReader::new(*b);
+                    let mut reader = ByteReader::new(b);
                     let t = T::from_bytes(&mut reader).unwrap();
                     *b = reader.into_rest();
                     Some(t)
@@ -264,7 +261,7 @@ impl<'a> ByteWriter<'a> {
         if self.space_left() < bytes {
             Err(Error::Eof)
         } else {
-            let this = mem::replace(&mut self.0, &mut []);
+            let this = mem::take(&mut self.0);
             self.0 = &mut this[bytes..];
             Ok(())
         }
@@ -283,7 +280,7 @@ impl<'a> ByteWriter<'a> {
         if self.space_left() < len {
             Err(Error::Eof)
         } else {
-            let this = mem::replace(&mut self.0, &mut []);
+            let this = mem::take(&mut self.0);
             let (head, tail) = this.split_at_mut(len);
             self.0 = tail;
             Ok(ByteWriter::new(head))
@@ -300,7 +297,7 @@ impl<'a> ByteWriter<'a> {
     ///
     /// [`split_off`]: #method.split_off
     pub fn split_next_mut(&mut self) -> Option<&'a mut u8> {
-        let this = mem::replace(&mut self.0, &mut []);
+        let this = mem::take(&mut self.0);
         // Slight contortion to please the borrow checker:
         if this.is_empty() {
             self.0 = this;
@@ -321,12 +318,13 @@ impl<'a> ByteWriter<'a> {
     ///
     /// Returns `Error::Eof` when `self` does not have enough space left to fit `other`. In that
     /// case, `self` will not be modified.
-    pub fn write_slice(&mut self, other: &[u8]) -> Result<(), Error> {
+    pub fn write_slice<T: AsRef<[u8]>>(&mut self, other: T) -> Result<(), Error> {
+        let other = other.as_ref();
         if self.space_left() < other.len() {
             Err(Error::Eof)
         } else {
             self.0[..other.len()].copy_from_slice(other);
-            let this = mem::replace(&mut self.0, &mut []);
+            let this = mem::take(&mut self.0);
             self.0 = &mut this[other.len()..];
             Ok(())
         }
@@ -356,7 +354,7 @@ impl<'a> ByteWriter<'a> {
     /// If `self` does not have enough space left, an error will be returned and no bytes will be
     /// written to `self`.
     pub fn write_u16_le(&mut self, value: u16) -> Result<(), Error> {
-        self.write_slice(&value.to_le_bytes())
+        self.write_slice(value.to_le_bytes())
     }
 
     /// Writes a `u32` to `self`, using Little Endian byte order.
@@ -364,7 +362,7 @@ impl<'a> ByteWriter<'a> {
     /// If `self` does not have enough space left, an error will be returned and no bytes will be
     /// written to `self`.
     pub fn write_u32_le(&mut self, value: u32) -> Result<(), Error> {
-        self.write_slice(&value.to_le_bytes())
+        self.write_slice(value.to_le_bytes())
     }
 
     /// Writes a `u64` to `self`, using Little Endian byte order.
@@ -372,7 +370,7 @@ impl<'a> ByteWriter<'a> {
     /// If `self` does not have enough space left, an error will be returned and no bytes will be
     /// written to `self`.
     pub fn write_u64_le(&mut self, value: u64) -> Result<(), Error> {
-        self.write_slice(&value.to_le_bytes())
+        self.write_slice(value.to_le_bytes())
     }
 
     /// Writes a value to the stream by transmuting it to bytes.

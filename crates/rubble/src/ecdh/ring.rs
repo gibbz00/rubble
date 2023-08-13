@@ -53,7 +53,7 @@ impl SecretKey for RingSecretKey {
         let public = UnparsedPublicKey::new(&ECDH_P256, &encoded[..]);
 
         let mut shared_secret = [0; 32];
-        agree_ephemeral(self.0, &public, InvalidPublicKey::new(), |b| {
+        agree_ephemeral(self.0, &public, InvalidPublicKey::default(), |b| {
             shared_secret.copy_from_slice(b);
             Ok(())
         })?;

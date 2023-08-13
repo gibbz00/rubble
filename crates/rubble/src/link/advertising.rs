@@ -345,6 +345,8 @@ pub struct ConnectRequestData {
     timeout: Duration,
     chm: ChannelMap,
     hop: u8,
+    /// XXX:
+    #[allow(dead_code)]
     sca: SleepClockAccuracy,
 }
 
@@ -756,7 +758,7 @@ impl Header {
     ///
     /// The `length` must be in range 6...37, otherwise this function panics.
     pub fn set_payload_length(&mut self, length: u8) {
-        assert!(6 <= length && length <= 37);
+        assert!((6..=37).contains(&length));
 
         let header = self.0 & !0b00111111_00000000;
         self.0 = header | (u16::from(length) << 8);

@@ -362,7 +362,7 @@ pub fn run_tests(queue: impl PacketQueue) {
             MIN_DATA_PAYLOAD_BUF,
             "produce_with didn't pass ByteWriter with correct buffer"
         );
-        writer.write_slice(&[0; MIN_DATA_PAYLOAD_BUF]).unwrap();
+        writer.write_slice([0; MIN_DATA_PAYLOAD_BUF]).unwrap();
         Ok(Llid::DataStart)
     })
     .expect("enqueuing packet failed");

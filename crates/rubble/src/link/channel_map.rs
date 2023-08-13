@@ -55,7 +55,7 @@ impl ChannelMap {
     }
 
     /// Returns an iterator over all data channels marked as used in this map.
-    pub fn iter_used<'a>(&'a self) -> impl Iterator<Item = DataChannel> + 'a {
+    pub fn iter_used(&self) -> impl Iterator<Item = DataChannel> + '_ {
         self.raw
             .iter()
             .enumerate()

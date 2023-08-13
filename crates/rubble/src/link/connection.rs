@@ -314,7 +314,7 @@ impl<C: Config> Connection<C> {
     ///
     /// Returns `Err(())` when the connection is closed or lost. In that case, the Link-Layer will
     /// return to standby state.
-    pub(crate) fn timer_update(&mut self, timer: &mut C::Timer) -> Result<Cmd, ()> {
+    pub(crate) fn timer_update(&mut self, timer: &C::Timer) -> Result<Cmd, ()> {
         if self.received_packet {
             // No packet from master, skip this connection event and listen on the next channel
 

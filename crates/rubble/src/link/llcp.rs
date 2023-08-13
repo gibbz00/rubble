@@ -18,13 +18,13 @@ pub struct ConnectionParamRequest {
     offsets: [u16; 6],
 }
 
-impl ConnectionParamRequest {
+impl Default for ConnectionParamRequest {
     /// Creates a new connection update request structure filled with default values.
     ///
     /// The returned structure will use conservative (maximally permissive) default values that will
     /// not usually result in a change in connection parameters, so users of this function likely
     /// want to call a setter afterwards.
-    pub fn new() -> Self {
+    fn default() -> Self {
         Self {
             interval_min: 6,    // 7.5ms
             interval_max: 3200, // 4s
@@ -35,7 +35,9 @@ impl ConnectionParamRequest {
             offsets: [0xFFFF; 6],          // none valid
         }
     }
+}
 
+impl ConnectionParamRequest {
     /// Sets the minimum and maximum requested connection interval.
     ///
     /// # Parameters
@@ -431,7 +433,7 @@ mod tests {
     #[test]
     fn update_req_set_conn_interval() {
         fn set(min: Duration, max: Duration) -> (Duration, Duration) {
-            let mut req = ConnectionParamRequest::new();
+            let mut req = ConnectionParamRequest::deault();
             req.set_conn_interval(min, max);
 
             (req.min_conn_interval(), req.max_conn_interval())
@@ -464,7 +466,7 @@ mod tests {
     #[test]
     #[should_panic(expected = "min <= max")]
     fn update_req_set_conn_interval_minmax() {
-        let mut req = ConnectionParamRequest::new();
+        let mut req = ConnectionParamRequest::deault();
         req.set_conn_interval(Duration::from_secs(8), Duration::from_secs(7));
     }
 }

@@ -131,19 +131,19 @@ impl From<Uuid32> for Uuid128 {
 
 impl ToBytes for Uuid16 {
     fn to_bytes(&self, buffer: &mut ByteWriter<'_>) -> Result<(), Error> {
-        buffer.write_slice(&self.0.to_le_bytes())
+        buffer.write_slice(self.0.to_le_bytes())
     }
 }
 
 impl ToBytes for Uuid32 {
     fn to_bytes(&self, buffer: &mut ByteWriter<'_>) -> Result<(), Error> {
-        buffer.write_slice(&self.0.to_le_bytes())
+        buffer.write_slice(self.0.to_le_bytes())
     }
 }
 
 impl ToBytes for Uuid128 {
     fn to_bytes(&self, buffer: &mut ByteWriter<'_>) -> Result<(), Error> {
-        buffer.write_slice(&self.0)
+        buffer.write_slice(self.0)
     }
 }
 

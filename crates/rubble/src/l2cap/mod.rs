@@ -569,12 +569,12 @@ impl<'a, M: ChannelMapper, P: Producer> Deref for L2CAPStateTx<'a, M, P> {
     type Target = L2CAPState<M>;
 
     fn deref(&self) -> &Self::Target {
-        &self.l2cap
+        self.l2cap
     }
 }
 
 impl<'a, M: ChannelMapper, P: Producer> DerefMut for L2CAPStateTx<'a, M, P> {
     fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.l2cap
+        self.l2cap
     }
 }

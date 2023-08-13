@@ -9,14 +9,8 @@ use ::p256::{
 use rand_core::{CryptoRng, RngCore};
 
 /// An ECDH provider using the pure-Rust `p256` crate.
+#[derive(Default)]
 pub struct P256Provider {}
-
-impl P256Provider {
-    /// Creates a new instance.
-    pub fn new() -> Self {
-        Self {}
-    }
-}
 
 impl EcdhProvider for P256Provider {
     type SecretKey = P256SecretKey;
@@ -28,9 +22,9 @@ impl EcdhProvider for P256Provider {
         let scalar = Scalar::random(rng);
         let secret = P256SecretKey { inner: scalar };
 
-        let public = ProjectivePoint::generator() * scalar;
-        let public = public.to_affine();
-        let public = public.to_encoded_point(false);
+        let public = (ProjectivePoint::GENERATOR * scalar)
+            .to_affine()
+            .to_encoded_point(false);
 
         // Remove the leading `0x04` tag bytes since we don't use that in Rubble.
         let mut public_bytes = [0; 64];
@@ -67,12 +61,12 @@ impl SecretKey for P256SecretKey {
         encoded[1..].copy_from_slice(&foreign_key.0);
 
         let foreign_key =
-            ::p256::EncodedPoint::from_bytes(&encoded).map_err(|_| InvalidPublicKey::new())?;
+            ::p256::EncodedPoint::from_bytes(encoded).map_err(|_| InvalidPublicKey::default())?;
 
         // ECDH is nothing but multiplying the foreign public key by the local secret key.
         let affine = ::p256::AffinePoint::from_encoded_point(&foreign_key);
-        if affine.is_none() {
-            return Err(InvalidPublicKey::new());
+        if affine.is_none().into() {
+            return Err(InvalidPublicKey::default());
         }
 
         let mul_point = ProjectivePoint::from(affine.unwrap()) * self.inner;
@@ -93,7 +87,7 @@ mod tests {
 
     #[test]
     fn testsuite() {
-        crate::ecdh::run_tests(P256Provider::new());
+        crate::ecdh::run_tests(P256Provider::default());
     }
 
     /// Uses `p256` to verify the Bluetooth test vectors.

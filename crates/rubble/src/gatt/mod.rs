@@ -15,8 +15,8 @@ pub struct BatteryServiceAttrs {
     attributes: [Attribute<&'static [u8]>; 3],
 }
 
-impl BatteryServiceAttrs {
-    pub fn new() -> Self {
+impl Default for BatteryServiceAttrs {
+    fn default() -> Self {
         Self {
             attributes: [
                 Attribute::new(
@@ -90,8 +90,8 @@ pub struct MidiServiceAttrs {
 // MIDI Service (UUID: 03B80E5A-EDE8-4B33-A751-6CE34EC4C700)
 // MIDI Data I/O Characteristic (UUID: 7772E5DB-3868-4112-A1A9-F2669D106BF3)
 
-impl MidiServiceAttrs {
-    pub fn new() -> Self {
+impl Default for MidiServiceAttrs {
+    fn default() -> Self {
         Self {
             attributes: [
                 Attribute::new(

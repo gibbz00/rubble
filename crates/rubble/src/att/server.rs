@@ -239,13 +239,8 @@ impl<A: AttributeProvider> AttributeServer<A> {
 
                         let mut buffer = [0u8; DYNAMIC_READ_BUFFER_SIZE];
                         if let Some(data_len) = self.attrs.read_attr_dynamic(*handle, &mut buffer) {
-                            let offset = *offset as usize;
                             let slice = &buffer[..data_len];
-                            let slice = &slice[offset..];
-
-                            let value = slice.as_ref();
-
-                            writer.write_slice_truncate(value);
+                            writer.write_slice_truncate(&slice[*offset as usize..]);
                         } else {
                             self.attrs.for_attrs_in_range(
                                 HandleRange::new(*handle, *handle),

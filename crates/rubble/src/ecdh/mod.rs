@@ -54,15 +54,8 @@ pub struct SharedSecret(pub [u8; 32]);
 /// Error returned by [`SecretKey::agree`] when the public key of the other party is invalid.
 ///
 /// [`SecretKey::agree`]: trait.SecretKey.html#tymethod.agree
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct InvalidPublicKey {}
-
-impl InvalidPublicKey {
-    /// Creates a new `InvalidPublicKey` error.
-    pub fn new() -> Self {
-        Self {}
-    }
-}
 
 impl fmt::Display for InvalidPublicKey {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {

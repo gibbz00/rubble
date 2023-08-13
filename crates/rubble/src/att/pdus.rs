@@ -598,7 +598,7 @@ impl<'a> ToBytes for AttPdu<'a> {
             } => {
                 handle.to_bytes(writer)?;
                 writer.write_slice(value.as_ref())?;
-                writer.write_slice(*signature.as_ref())?;
+                writer.write_slice(signature.as_ref())?;
             }
             AttPdu::PrepareWriteReq {
                 handle,

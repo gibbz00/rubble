@@ -415,7 +415,7 @@ impl<C: Config> LinkLayer<C> {
                     queued_work: false,
                 }
             }
-            State::Connection(conn) => match conn.timer_update(&mut self.timer) {
+            State::Connection(conn) => match conn.timer_update(&self.timer) {
                 Ok(cmd) => cmd,
                 Err(()) => {
                     debug!("connection ended (timer), standby");

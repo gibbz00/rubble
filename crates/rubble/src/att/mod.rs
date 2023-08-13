@@ -75,7 +75,9 @@ impl<T: AsRef<[u8]>> Attribute<T> {
     }
 }
 
+#[derive(Default)]
 pub enum AttributeAccessPermissions {
+    #[default]
     Readable,
     Writeable,
     ReadableAndWriteable,
@@ -95,12 +97,6 @@ impl AttributeAccessPermissions {
             | AttributeAccessPermissions::ReadableAndWriteable => true,
             AttributeAccessPermissions::Readable => false,
         }
-    }
-}
-
-impl Default for AttributeAccessPermissions {
-    fn default() -> Self {
-        AttributeAccessPermissions::Readable
     }
 }
 

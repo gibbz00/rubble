@@ -74,9 +74,9 @@ impl From<Uuid128> for AttUuid {
     }
 }
 
-impl Into<Uuid128> for AttUuid {
-    fn into(self) -> Uuid128 {
-        match self {
+impl From<AttUuid> for Uuid128 {
+    fn from(att_uuid: AttUuid) -> Uuid128 {
+        match att_uuid {
             AttUuid::Uuid16(u) => u.into(),
             AttUuid::Uuid128(u) => u,
         }
