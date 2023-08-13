@@ -1,14 +1,7 @@
 [package]
-authors = ["Jonas Schievink <jonasschievink@gmail.com>"]
-description = "Rubble BLE stack demo for the nRF52 MCU family"
-categories = ["embedded", "no-std"]
-keywords = ["arm", "nrf", "bluetooth", "low", "energy"]
-repository = "https://github.com/jonas-schievink/rubble/"
-license = "0BSD"
 name = "nrf52-demo"
-version = "0.0.0"
+version = "0.0.1"
 edition = "2018"
-publish = false
 
 [dependencies]
 rubble = { path = "../../crates/rubble", default-features = false }

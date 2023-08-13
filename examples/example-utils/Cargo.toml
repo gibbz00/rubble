@@ -1,14 +1,7 @@
 [package]
-authors = ["Jonas Schievink <jonasschievink@gmail.com>"]
-description = "Common utilities used by Rubble demos"
-categories = ["embedded", "no-std"]
-keywords = ["arm", "nrf", "bluetooth", "low", "energy"]
-repository = "https://github.com/jonas-schievink/rubble/"
-license = "0BSD"
 name = "example-utils"
-version = "0.0.0"
+version = "0.0.1"
 edition = "2018"
-publish = false
 
 [dependencies]
 rubble = { path = "../../crates/rubble", default-features = false }

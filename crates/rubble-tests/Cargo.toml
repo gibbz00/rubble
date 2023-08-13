@@ -1,8 +1,6 @@
 [package]
 name = "rubble-test"
-version = "0.0.0"
-license = "0BSD"
-publish = false
+version = "0.0.1"
 edition = "2018"
 
 [dependencies]

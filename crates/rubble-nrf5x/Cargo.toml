@@ -1,10 +1,4 @@
 [package]
-authors = ["Jonas Schievink <jonasschievink@gmail.com>"]
-description = "Rubble driver for the nRF51/nRF52-series radios"
-categories = ["embedded", "no-std"]
-keywords = ["ble", "nrf", "bluetooth", "low", "energy"]
-repository = "https://github.com/jonas-schievink/rubble/"
-license = "0BSD"
 name = "rubble-nrf5x"
 version = "0.0.4"
 edition = "2018"
