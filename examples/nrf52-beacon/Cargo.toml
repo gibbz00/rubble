@@ -11,8 +11,8 @@ edition = "2018"
 publish = false
 
 [dependencies]
-rubble = { path = "../../rubble", default-features = false }
-rubble-nrf5x = { path = "../../rubble-nrf5x" }
+rubble = { path = "../../crates/rubble", default-features = false }
+rubble-nrf5x = { path = "../../crates/rubble-nrf5x" }
 example-utils = { path = "../example-utils" }
 cortex-m = "0.7.2"
 cortex-m-rtic = { version = "0.5.8", default-features = false, features = ["cortex-m-7"] }

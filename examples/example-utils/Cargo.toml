@@ -11,7 +11,7 @@ edition = "2018"
 publish = false
 
 [dependencies]
-rubble = { path = "../../rubble", default-features = false }
+rubble = { path = "../../crates/rubble", default-features = false }
 cortex-m = "0.7.2"
 log = "0.4.8"
 bbqueue = "0.4.1"
