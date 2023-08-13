@@ -13,7 +13,7 @@ publish = false
 [dependencies]
 rubble = { path = "../../rubble", default-features = false }
 rubble-nrf5x = { path = "../../rubble-nrf5x" }
-demo-utils = { path = "../demo-utils" }
+example-utils = { path = "../example-utils" }
 cortex-m = "0.7.2"
 cortex-m-rtic = { version = "0.5.8", default-features = false, features = ["cortex-m-7"] }
 cortex-m-rt = "0.7.0"

@@ -2,7 +2,7 @@
 
 use bbqueue::{BBBuffer, ConstBBBuffer, Consumer};
 use cortex_m::interrupt;
-use demo_utils::logging::{BbqLogger, StampedLogger, WriteLogger};
+use example_utils::logging::{BbqLogger, StampedLogger, WriteLogger};
 use rubble_nrf5x::timer::StampSource;
 
 #[cfg(feature = "log")]
